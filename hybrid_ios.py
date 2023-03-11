@@ -9,8 +9,8 @@ APP = path.join(CUR_DIR, 'TheApp.app.zip')
 APPIUM = 'http://localhost:4723'
 CAPS = {
     'platformName': 'iOS',
-    'platformVersion': '13.6',
-    'deviceName': 'iPhone 11',
+    'platformVersion': '16.2',
+    'deviceName': 'iPhone 14 Pro',
     'automationName': 'XCUITest',
     'app': APP,
 }
