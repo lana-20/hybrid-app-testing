@@ -2,7 +2,16 @@
 
 *Another major type of app is the hybrid app. Using Appium's Context API, you can switch back and forth between the native UI and any webviews in the app.*
 
-Hybrid mobile apps are those that contain both native components as well as a webview. Here I have the iOS simulator up, with TheApp running on it. Everything we see here is native. Native UI elements, a native list, and so on. But if I tap on "Webview Demo", we get to a hybrid view. There are some native controls like text fields and buttons, but there's also a webview here. It may not look like it, but the text that says "Please navigate to a webpage" is actually a webpage itself! So let's type in the suggested page here, and hit Go. And we can see the Appium Pro website loaded! I can interact with it just like I would in Safari. In fact, Safari itself is a hybrid app, with some native controls, and a webview! So, this is what we mean by hybrid apps. The challenge for Appium testing is to figure out how to automate both the native layer as well as the web layer.
+Hybrid mobile apps are those that contain both native components as well as a webview. Here I have the iOS simulator up, with TheApp running on it. Everything we see here is native. Native UI elements, a native list, and so on. 
+
+<img src="https://user-images.githubusercontent.com/70295997/224513173-63441300-2926-490c-852a-9830e537d288.png" width=350><img src="https://user-images.githubusercontent.com/70295997/224513164-5d49e9a4-29ce-4e56-b538-5947375473f9.png" width=350>
+
+
+But if I tap on "Webview Demo", we get to a hybrid view. There are some native controls like text fields and buttons, but there's also a webview here. It may not look like it, but the text that says "Please navigate to a webpage" is actually a webpage itself! 
+
+
+
+So let's type in the suggested page here, and hit Go. And we can see the Appium Pro website loaded! I can interact with it just like I would in Safari. In fact, Safari itself is a hybrid app, with some native controls, and a webview! So, this is what we mean by hybrid apps. The challenge for Appium testing is to figure out how to automate both the native layer as well as the web layer.
 
 Fortunately, Appium can automate webviews the same way it automates web browsers. Webviews within mobile apps are built using all the same technology as the browsers themselves, so we have the same access to web content inside webviews as inside the browsers. For you as the test author, Appium exposes something called the Context API, which allows switching back and forth between the native layer as well as the web layer. We'll see examples of the Context API in a moment. But in general, everything we learned about automating web applications using Appium is relevant for automating hybrid apps. All the Chromedriver management stuff we talked about holds true for Android webviews as well. There is one important note for Android, however. By default, Android webviews are not debuggable, and are therefore not accessible to Chromedriver. If you run into this situation where Chromedriver can't find any automatable webviews, make sure to mention to the app developer that they can turn debugging on for all webviews in the app by running a certain command on the <code>WebView</code> class: <code>WebView.setWebContentsDebuggingEnabled(true);</code>. OK, on to the Context API!
 
