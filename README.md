@@ -65,7 +65,7 @@ So now we have an empty class. How do we fill it out? By convention, to create a
         def __call__(self, driver):
                 pass
 
-This <code>__call__</code> method takes a <code>driver</code> object which we can use to implement our logic. Now this method needs to return a value which can be evaluated to either True or False. If it returns a value which is truthy, meaning not False or None, the webdriver wait method will consider that we have succeeded in our logic and will stop its retries. But if we return a value which is falsey like False or None, then the webdriverwait until method will run our method again, and will keep doing so until the wait times out. So what we want to do is try to find a web context, switch to it, and return true. If we can't find a web context, then we'll return false.
+This <code>__call__</code> method takes a <code>driver</code> object which we can use to implement our logic. Now this method needs to return a value which can be evaluated to either True or False. If it returns a value which is *truthy*, meaning not False or None, the webdriver wait method will consider that we have succeeded in our logic and will stop its retries. But if we return a value which is *falsey* like False or None, then the webdriverwait until method will run our method again, and will keep doing so until the wait times out. So what we want to do is try to find a web context, switch to it, and return true. If we can't find a web context, then we'll return false.
 
 So what we want to first do is loop through our available contexts, checking to see if we find a context which isn't NATIVE_APP:
 
