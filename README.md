@@ -36,7 +36,7 @@ There are 3 commands in the context API to learn about.
 2. Second, we have the <code>context</code> property, the singular version of the word, which will tell us the currently active context. The value of this property will be the ID of that active context, either <code>NATIVE_APP</code> or the ID of a webview if we're automating a webview at the moment. The purpose of this property is to be able to check what context we're in before performing actions that might only make sense in a given context.
 3. Finally, we have the command that lets us switch into another context, <code>driver.switch_to.context()</code>. It takes a single parameter, which is the ID of a context that is present in the list returned by <code>driver.contexts</code>. This is important. Appium can only switch to an available context, so it's always good to check <code>driver.contexts</code> before attempting to switch, to make sure the context you have in mind is available. When you switch into a context, Appium will determine whether it is a native or a web context. If it's a native context, all your commands will take place in the native layer. If it's a web context, all your commands will take place in the webview. Depending on the context, you'll need to use different locator strategies, and have access to different commands. Just like you have access to certain locator strategies for web automation and others for mobile app automation, you'll need to make sure you use the appropriate strategies for hybrid apps depending on context. Webviews require web-based locator strategies!
 
-That's pretty much all we need to know about the Context API from a theoretical perspective, so now let's dive into an example. What we want to do is get to the Webview Demo and then add a click at the end:
+That's pretty much all we need to know about the Context API from a theoretical perspective, so now let's dive into an [example](https://github.com/lana-20/hybrid-app-testing/blob/main/hybrid_ios.py). What we want to do is get to the Webview Demo and then add a click at the end:
 
         wait.until(EC.presence_of_element_located(
                 (MobileBy.ACCESSIBILITY_ID, 'Webview Demo'))).click()
@@ -57,7 +57,7 @@ Instead, I'm going to show you how we can create a custom expected condition to 
 
 The way we do this is by creating a new Python class, which I'll do up here a ways. I'll call it <code>webview_active</code>, so that our whole wait line will read "wait until webview active", which is pretty transparent and understandable in my opinion:
 
-        class webview_active(object):
+        class webview_active(object):   # wait.until(web_active())
             pass
 
 So now we have an empty class. How do we fill it out? By convention, to create a custom expected condition, we need to fill out a Python magic method for this class, called <code>__call__</code> with two underscores on each side. This is the method which will be executed if an instance of the class is called as if it's a function:
@@ -65,7 +65,7 @@ So now we have an empty class. How do we fill it out? By convention, to create a
         def __call__(self, driver):
                 pass
 
-This <code>__call__</code> method takes a <code>driver</code> object which we can use to implement our logic. Now this method needs to return a value which can be evaluated to either True or False. If it returns a value which is truthy, meaning not False or None, the webdriver wait method will consider that we have succeeded in our logic and will stop its retries. But if we return a value which is falsey, then the webdriverwait until method will run our method again, and will keep doing so until the wait times out. So what we want to do is try to find a web context, switch to it, and return true. If we can't find a web context, then we'll return false.
+This <code>__call__</code> method takes a <code>driver</code> object which we can use to implement our logic. Now this method needs to return a value which can be evaluated to either True or False. If it returns a value which is truthy, meaning not False or None, the webdriver wait method will consider that we have succeeded in our logic and will stop its retries. But if we return a value which is falsey like False or None, then the webdriverwait until method will run our method again, and will keep doing so until the wait times out. So what we want to do is try to find a web context, switch to it, and return true. If we can't find a web context, then we'll return false.
 
 So what we want to first do is loop through our available contexts, checking to see if we find a context which isn't NATIVE_APP:
 
