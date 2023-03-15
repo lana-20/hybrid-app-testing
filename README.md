@@ -14,12 +14,16 @@ But if I tap on "Webview Demo", we get to a hybrid view. There are some native c
 
 So let's type in the suggested page here, and hit Go. And we can see the Appium Pro website loaded! I can interact with it just like I would in Safari. In fact, Safari itself is a hybrid app, with some native controls, and a webview! So, this is what we mean by hybrid apps. The challenge for Appium testing is to figure out how to automate both the native layer as well as the web layer.
 
+<img width="300" src="https://user-images.githubusercontent.com/70295997/225201258-bba84a20-f0b7-4a50-b822-b869b5dc8fbf.png">
+<img width="500" src="https://user-images.githubusercontent.com/70295997/225201443-df56b194-6f0b-4eb4-84dc-7b2145b032e5.png">
+<img width="390" src="https://user-images.githubusercontent.com/70295997/225201288-edd5b2ba-9abb-429b-b4cf-6949a7f3797b.png">
+
 Hybrid Automation Overview |
 ---- |
 Appium automates webviews using the same technology as for automating mobile browsers. |
 Appium exposes a Context API that allows you to select a native or web context for your commands to target. |
 Everything we learned for automating web browsers is relevant for automating hybrid apps' webviews. |
-Android webviews must be debuggable if they are to be automatable by ChromeDriver. Android app developers can turn debugging on for all WebViews easily: <code>WebView. setWebContentsDebuggingEnabled (true);</code> |
+Android webviews must be debuggable if they are to be automatable by ChromeDriver. Android app developers can turn debugging on for all WebViews easily: <code>WebView.setWebContentsDebuggingEnabled(true);</code> |
 
 
 Fortunately, Appium can automate webviews the same way it automates web browsers. Webviews within mobile apps are built using all the same technology as the browsers themselves, so we have the same access to web content inside webviews as inside the browsers. For you as the test author, Appium exposes something called the Context API, which allows switching back and forth between the native layer as well as the web layer. We'll see examples of the Context API in a moment. But in general, everything we learned about automating web applications using Appium is relevant for automating hybrid apps. All the Chromedriver management stuff we talked about holds true for Android webviews as well. There is one important note for Android, however. By default, Android webviews are not debuggable, and are therefore not accessible to Chromedriver. If you run into this situation where Chromedriver can't find any automatable webviews, make sure to mention to the app developer that they can turn debugging on for all webviews in the app by running a certain command on the <code>WebView</code> class: <code>WebView.setWebContentsDebuggingEnabled(true);</code>. This, of course, would be in a Java or Kotlin code that defines the Android app. OK, on to the Context API!
@@ -28,7 +32,7 @@ Fortunately, Appium can automate webviews the same way it automates web browsers
 | ---- | ---- |
 | <code>ctxs = driver.contexts</code> | Returns a list of available contexts. "NATIVE_APP" plus any webview context IDs. |
 | <code>ctx = driver.context</code> | Returns the currently-active context. |
-| <code>driver.switch_to.context(ctx)</code> | Switches to one of the avaialable contexts. |
+| <code>driver.switch_to.context(ctx)</code> | Switches to one of the available contexts. |
 
 There are 3 commands in the context API to learn about.
 
@@ -107,13 +111,16 @@ So this is how you work with hybrid apps with Appium. Android is entirely the sa
 
 There is one additional technique which is useful to know, however, and that is how to inspect webviews. If you tried to inspect a mobile app with a webview from within Appium desktop, it'd be a bit problematic, because by default all you'd see are the native elements. Typically, both iOS and Android decide to promote some web elements to show up as native elements for accessibility purposes, and this can be useful, you might be able to find these elements using Appium Desktop in native mode. But in general, you can't use Appium desktop to actually read any of the HTML code within a webview, or to use all the web-specific locator strategies and actions. But never fear, because we can actually inspect webview content just the same way we inspect other websites in Safari and Chrome on desktop. Let's see how it's done with Safari first. 
 
+<img width="500" src="https://user-images.githubusercontent.com/70295997/225201867-808aecee-5512-4c96-aacc-5d1072d55de5.png">
+
 <img width="1000" src="https://user-images.githubusercontent.com/70295997/224517132-30f3a75d-468f-4c89-b5f7-7a02b985a3ce.png">
 <img width="1000" src="https://user-images.githubusercontent.com/70295997/224517181-c77078a1-e3f9-40aa-b2e3-9a9f173f8920.png">
-
 
 The first thing I'll do is get back to my webview in the simulator, opening up TheApp, heading to the webview demo, and then typing in the website to go to. There, it's loaded. Now, I need to open up Safari on my desktop. Once it's open, I can go up to the "Develop" menu. In this menu I now see an entry for the simulator I'm running! If I open up that submenu, I'll see a list of any of the pages that it found that I can inspect. I see the Appium Pro website, so let's inspect that one. And up pops a whole developer tools panel! Here I can navigate through the HTML hierarchy, and even see parts of the webview highlight when I mouse over them. So I can use this technique to figure out locator strategies and selectors for webviews, just like I would with determining them for Selenium with desktop browsers.
 
 <img width="1000" src="https://user-images.githubusercontent.com/70295997/224518684-9fa5f9d4-9093-4ffc-bb56-cab1d6f00e44.png">
+
+<img width="550" src="https://user-images.githubusercontent.com/70295997/225201903-013cf0d8-4751-429b-985e-0724b6ecc20f.png">
 
 It's time to discuss Chrome. I'll close down Safari and the Simulator, and show TheApp running on an emulator. And I'll navigate to the webview demo just like before, and type in the name of the website to visit. Alright, now the Appium Pro website is loaded. At this point I can open up Chrome on desktop. Now that it's open, I can type in a special URL, [chrome://inspect](chrome://inspect). This will open up an inspection interface that lists all the pages and devices available for inspection. Under Remote Target, you should be able to see your emulator that has a WebView open in TheApp. You can see it even mentions the Appium Pro website. Now we can click the little 'inspect' link, and up will pop a full-on devtools interface. As you can see it's quite comprehensive. I have a view of the page on the left, and I can even use the inspection tool to find elements and navigate directly to them in the HTML. As with Safari, all the typical developer tools are available, so I can use this strategy to quickly and easily figure out locator strategies and selectors for elements.
 
